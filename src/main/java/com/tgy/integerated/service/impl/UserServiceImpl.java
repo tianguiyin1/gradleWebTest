@@ -2,8 +2,11 @@ package com.tgy.integerated.service.impl;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tgy.integerated.bean.User;
 import com.tgy.integerated.mapper.UserMapper;
@@ -33,6 +36,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean updateUser(User user) {
 		userMapper.update(user);
 		System.out.println(1/0);

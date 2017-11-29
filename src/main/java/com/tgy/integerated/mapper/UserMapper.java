@@ -11,7 +11,7 @@ import com.tgy.integerated.bean.User;
 
 
 public interface UserMapper {
-	@Insert("insert into users (name,age) values (#{name},#{age})")
+	/*@Insert("insert into users (name,age) values (#{name},#{age})")
 	void save(User user);
 	
 	@Update("update users set name = #{name},age = #{age} where id = #{id}")
@@ -24,6 +24,17 @@ public interface UserMapper {
 	User findById(int id);
 	
 	@Select("select * from users ")
+	List<User> findAll();*/
+	
+	
+	int save(User user);
+	
+	int update(User user);
+	
+	int delete(int id);
+	
+	User findById(int id);
+	
 	List<User> findAll();
 
 }

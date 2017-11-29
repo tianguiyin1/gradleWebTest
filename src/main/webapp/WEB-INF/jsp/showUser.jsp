@@ -4,9 +4,11 @@
 <head>
 <title>test spring mvc</title>
 <style>
-    	body{
-    		background : url(http://localhost:8080/gradleWebTest/img/index.jpg);
+    	.show{
+    		background : url(${contextPath}/img/index.jpg);
 			background-size : 100% 100%;
+			width: 500px;
+			height:500px;
     	}
     </style>
 </head>
