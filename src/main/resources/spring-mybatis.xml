@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans   
+  http://www.springframework.org/schema/beans/spring-beans.xsd  
+  http://www.springframework.org/schema/aop   
+  http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+  http://www.springframework.org/schema/tx   
+  http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+  http://www.springframework.org/schema/context   
+  http://www.springframework.org/schema/context/spring-context-4.0.xsd
+  http://www.springframework.org/schema/util   
+  http://www.springframework.org/schema/util/spring-util-4.0.xsd
+  ">
+  
+ 
+  <!-- BasicDataSource提供了close()方法关闭数据源，所以必须设定destroy-method=”close”属性 -->
+  <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">  
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />  
+        <property name="url" value="jdbc:mysql://localhost:3306/mybatis" />  
+        <property name="username" value="root"/>  
+        <property name="password" value="root"/>  
+    </bean>  
+  
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->  
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+        <!-- 定义了之后后面写sql返回对象类型时就不用写全类名 -->  
+        <property name="typeAliasesPackage" value="com.tgy.integerated.bean"></property>  
+    </bean>  
+  
+    <!-- Spring会自动查找其下的类 可以用注解的方式写sql，也可以用和类一样名字的xml来定义 -->  
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="com.tgy.integerated.mapper" />  
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>  
+        <!-- <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property> -->  
+    </bean>  
+  
+    <!-- 
+    	Spring提供了对事务的声明式事务管理，只需要在配置文件中做一些配置，即可把操作纳入到事务管理当中，解除了和代码的耦合。
+　　		Spring声明式事务管理，核心实现就是基于Aop。
+　　		Spring声明式事务管理是粗粒度的事务控制，只能给整个方法应用事务，不可以对方法的某几行应用事务。
+     -->  
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+        <property name="dataSource" ref="dataSource" />  
+    </bean>
+    
+    <!-- 这种开头的方法会自带事物，在方法执行完成之后才会提交(还没用得起) -->
+     <!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="create*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />
+            <tx:method name="add*" 	  propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />
+            <tx:method name="insert*"  propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />
+            <tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />
+            <tx:method name="commit*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />
+            <tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="java.lang.Exception" />
+        </tx:attributes>
+    </tx:advice> -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
+
