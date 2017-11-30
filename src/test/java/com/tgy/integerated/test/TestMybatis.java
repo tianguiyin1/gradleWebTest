@@ -12,11 +12,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.tgy.integerated.bean.User;
 import com.tgy.integerated.service.UserService;
 
-@RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类  
-@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"}) 
+/*@RunWith(SpringJUnit4ClassRunner.class)     //表示继承了SpringJUnit4ClassRunner类  
+@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"}) */
 public class TestMybatis {
 
-	@Resource
+	/*@Resource
 	private UserService userService;
 	
 	@Test
@@ -65,5 +65,5 @@ public class TestMybatis {
 		System.out.println("------------------------------------------测试输出开始-------------------------------------------------");
 		System.out.println(users);
 		System.out.println("------------------------------------------测试输出结束-------------------------------------------------");
-	}
+	}*/
 }
