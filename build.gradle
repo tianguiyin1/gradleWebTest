@@ -3,7 +3,7 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
 repositories {
-	mavenLocal()
+	/*mavenLocal()*/
   	mavenCentral()
 }
 
